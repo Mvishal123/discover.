@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id @default(cuid())
+  username String  @unique
+  name     String?
+  email    String  @unique
+  image    String?
+
+  currentLocation String?
+  city            String?
+  country         String?
+  latitude        Float?
+  longitude       Float?
+
+  discovers UserDiscover[]
+
+  onboarded  Boolean  @default(false)
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Discover {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  image       String?
+
+  country   String?
+  city      String?
+  location  String?
+  latitude  Float?
+  longitude Float?
+
+  users       UserDiscover[]
+  createdById String
+
+  startTime DateTime?
+  endTime   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserDiscover {
+  id         String   @id @default(cuid())
+  userId     String
+  discoverId String
+  joinedAt   DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id])
+  discover Discover @relation(fields: [discoverId], references: [id])
+
+  @@unique([userId, discoverId])
+}
