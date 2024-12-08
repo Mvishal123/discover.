@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 const Header = () => {
   const { data: session } = useSession();
   return (
-    <header className="flex items-center justify-between px-12 rounded-lg h-12 bg-white/70 backdrop-blur-md l  border-[1px] border-black/5">
+    <header className="l flex h-12 items-center justify-between rounded-lg border-[1px] border-black/5 bg-white/70 px-12 backdrop-blur-md">
       <div className="size-10">
         <Logo />
       </div>

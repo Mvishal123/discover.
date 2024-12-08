@@ -1,5 +1,6 @@
 "use client";
 
+import { NAV_ITEMS } from "@/constants";
 import { cn } from "@/lib/utils";
 import {
   ArrowLeftFromLineIcon,
@@ -9,36 +10,34 @@ import {
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Dispatch, SetStateAction, useState } from "react";
 import Logo from "../common/logo";
 import { Button } from "../ui/button";
-import { usePathname } from "next/navigation";
-import path from "path";
-import Link from "next/link";
-import { NAV_ITEMS } from "@/constants";
 
 const Sidebar = () => {
-  const [expanded, setExpanded] = useState<boolean>(true);
+  const [expanded, setExpanded] = useState<boolean>(false);
   const { data: session } = useSession();
   return (
-    <aside className="h-screen w-fit">
-      <nav className="h-full border-r flex flex-col">
+    <aside className="fixed z-[9999] h-screen w-fit bg-white">
+      <nav className="flex h-full flex-col border-r">
         {/* Sidebar header */}
-        <div className="px-3 pt-4 flex items-center">
+        <div className="flex items-center px-3 pt-4">
           <div
             className={cn(
-              "flex items-center transition-all overflow-hidden",
-              expanded ? "w-32" : "w-0"
+              "flex items-center overflow-hidden transition-all",
+              expanded ? "w-32" : "w-0",
             )}
           >
             <div className="relative size-10">
               <Logo className="relative" />
             </div>
-            <span className={cn("font-bold text-xl")}>Discover</span>
+            <span className={cn("text-xl font-bold")}>Discover</span>
           </div>
           <Button
             size="icon"
-            className="size-8 ml-auto"
+            className="ml-auto size-8"
             variant="secondary"
             onClick={() => setExpanded((prev) => !prev)}
           >
@@ -47,9 +46,14 @@ const Sidebar = () => {
         </div>
 
         {/* Sidebar content */}
-        <ul className="flex-1 my-4">
+        <ul className="my-4 flex-1">
           {NAV_ITEMS.map((item, index) => (
-            <SidebarItem key={index} item={item} expaned={expanded} />
+            <SidebarItem
+              key={index}
+              item={item}
+              expanded={expanded}
+              setExpanded={setExpanded}
+            />
           ))}
         </ul>
 
@@ -58,11 +62,11 @@ const Sidebar = () => {
           <div
             className={cn(
               "flex items-center",
-              expanded ? "border p-2 rounded-md" : ""
+              expanded ? "rounded-md border p-2" : "",
             )}
           >
-            <div className="size-8 relative">
-              <span className="inline-block size-2 bg-green-500 rounded-full absolute -bottom-0.5 -right-0.5" />
+            <div className="relative size-8">
+              <span className="absolute -bottom-0.5 -right-0.5 inline-block size-2 rounded-full bg-green-500" />
               {session?.user?.image ? (
                 <Image
                   src={session.user.image}
@@ -72,18 +76,18 @@ const Sidebar = () => {
                   className="rounded-md"
                 />
               ) : (
-                <div className="rounded-md flex items-center justify-center">
+                <div className="flex items-center justify-center rounded-md">
                   {session?.user?.name[0].toUpperCase() ?? "X"}
                 </div>
               )}
             </div>
             <div
               className={cn(
-                "transition-all overflow-hidden flex items-center",
-                expanded ? "w-44" : "w-0"
+                "flex items-center overflow-hidden transition-all",
+                expanded ? "w-44" : "w-0",
               )}
             >
-              <span className="text-sm font-medium text-black/60 ml-auto mr-2 truncate">
+              <span className="ml-auto mr-2 truncate text-sm font-medium text-black/60">
                 {session?.user.username}
               </span>
               <Button variant="ghost" size="icon">
@@ -105,11 +109,13 @@ interface SidebarItemProps {
     href: string;
     icon: LucideIcon;
   };
-  expaned: boolean;
+  expanded: boolean;
+  setExpanded: Dispatch<SetStateAction<boolean>>;
 }
 
 function SidebarItem({
-  expaned,
+  expanded,
+  setExpanded,
   item: { label, href, icon: Icon },
 }: SidebarItemProps) {
   const pathname = usePathname();
@@ -118,21 +124,29 @@ function SidebarItem({
   console.log(label, " : ", isActive);
 
   return (
-    <li className="px-1 my-2">
+    <li className="group relative my-2 px-1">
+      {!expanded && (
+        <span className="pointer-events-none absolute left-16 mt-2 flex w-[80px] -translate-x-6 items-center justify-center rounded-lg border bg-gradient-to-r from-brand-red to-brand-orange p-1 text-start text-xs text-white opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-50">
+          {label}
+        </span>
+      )}
       <Link
+        onClick={() => {
+          if (expanded) setExpanded(false);
+        }}
         href={href}
         className={cn(
-          "px-3 py-1 flex rounded-lg items-center",
+          "flex items-center rounded-lg px-3 py-1",
           isActive
-            ? "bg-gradient-to-r from-brand-red to-brand-orange  text-white/90"
-            : "text-black/70 hover:bg-black/10"
+            ? "bg-gradient-to-r from-brand-red to-brand-orange text-white/90"
+            : "text-black/70 hover:bg-black/5",
         )}
       >
         <Icon strokeWidth={1} />
         <span
           className={cn(
-            "transition-all overflow-hidden",
-            expaned ? "ml-3 w-32" : "w-0"
+            "overflow-hidden transition-all",
+            expanded ? "ml-3 w-32" : "w-0",
           )}
         >
           {label}

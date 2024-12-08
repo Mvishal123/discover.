@@ -3,9 +3,9 @@ import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <div className="flex">
       <Sidebar />
-      {children}
+      <main className="w-full overflow-auto pl-[60px]">{children}</main>
     </div>
   );
 };

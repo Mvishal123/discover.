@@ -32,16 +32,16 @@ const CreateDiscover: React.FC = () => {
 
       fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-          query
-        )}`
+          query,
+        )}`,
       )
         .then((response) => response.json())
         .then((data) => setSuggestions(data))
         .catch((error) =>
-          console.error("Error fetching location suggestions:", error)
+          console.error("Error fetching location suggestions:", error),
         );
     }, 300),
-    []
+    [],
   );
 
   // Update the handler to use debounced function
@@ -54,7 +54,7 @@ const CreateDiscover: React.FC = () => {
   // Add debounce utility function
   function debounce<T extends (...args: any[]) => void>(
     func: T,
-    wait: number
+    wait: number,
   ): (...args: Parameters<T>) => void {
     let timeout: NodeJS.Timeout;
     return (...args: Parameters<T>) => {
@@ -76,7 +76,7 @@ const CreateDiscover: React.FC = () => {
 
   const addressFromCoordinates = async (lat: number, lng: number) => {
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
+      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
     );
     const data = await response.json();
     console.log("data", data);
@@ -98,7 +98,7 @@ const CreateDiscover: React.FC = () => {
     navigator.geolocation.getCurrentPosition(async (position) => {
       const address = await addressFromCoordinates(
         position.coords.latitude,
-        position.coords.longitude
+        position.coords.longitude,
       );
       setPosition([position.coords.latitude, position.coords.longitude]);
       setSearchQuery(address.display_name);

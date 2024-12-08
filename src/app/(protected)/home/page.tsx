@@ -18,7 +18,8 @@ const Home = async () => {
 
   return (
     <div>
-      {/* <Maps /> */}
+      <Maps />
+      HEYY
     </div>
   );
 };

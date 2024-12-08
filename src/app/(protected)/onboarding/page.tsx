@@ -61,14 +61,14 @@ const Onboarding = () => {
   });
 
   return (
-    <div className="min-h-screen w-full flex justify-center mt-24">
+    <div className="mt-24 flex min-h-screen w-full justify-center">
       <Card
         className={cn(
-          "w-[500px] p-8 h-fit shadow border-[5px] border-black/5 relative",
-          "before:absolute before:inset-x-0 before:h-40 before:bg-gradient-to-b before:pointer-events-none before:from-brand-orange/20 before:to-transparent before:top-0 before:z-10 before:rounded-lg"
+          "relative h-fit w-[500px] border-[5px] border-black/5 p-8 shadow",
+          "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-40 before:rounded-lg before:bg-gradient-to-b before:from-brand-orange/20 before:to-transparent",
         )}
       >
-        <CardTitle className="text-center text-4xl font-medium text-black_a70 relative z-10">
+        <CardTitle className="relative z-10 text-center text-4xl font-medium text-black_a70">
           Welcome to Discover,{" "}
           <span className="block md:inline">{session?.user?.name}</span>
         </CardTitle>
@@ -81,7 +81,7 @@ const Onboarding = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-black_a70 font-medium">
+                    <FormLabel className="font-medium text-black_a70">
                       Name
                     </FormLabel>
                     <FormControl>
