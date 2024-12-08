@@ -1,12 +1,18 @@
+import { cn } from "@/lib/utils";
 import * as React from "react";
-const Logo = () => (
+
+interface LogoProps {
+  className?: string;
+}
+
+const Logo = ({ className }: LogoProps) => (
   <svg
     width="800px"
     height="800px"
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="max-h-full max-w-full"
+    className={cn("max-h-full max-w-full", className)}
   >
     <path
       d="M12 2.59009V13.6101L2.65 20.1501C1.8 19.1401 1.75 17.6101 2.7 15.9001L5.82 10.2901L8.76 5.00009C9.65 3.40009 10.82 2.59009 12 2.59009Z"
