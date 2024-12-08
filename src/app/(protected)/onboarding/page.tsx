@@ -64,7 +64,7 @@ const Onboarding = () => {
     <div className="min-h-screen w-full flex justify-center mt-24">
       <Card
         className={cn(
-          "min-w-[400px] p-8 h-fit shadow border-[5px] border-black/5 relative",
+          "w-[500px] p-8 h-fit shadow border-[5px] border-black/5 relative",
           "before:absolute before:inset-x-0 before:h-40 before:bg-gradient-to-b before:pointer-events-none before:from-brand-orange/20 before:to-transparent before:top-0 before:z-10 before:rounded-lg"
         )}
       >
@@ -110,12 +110,7 @@ const Onboarding = () => {
                   </FormItem>
                 )}
               />
-              <Button
-                disabled={isPending}
-                className="w-full"
-                type="submit"
-                variant="brand"
-              >
+              <Button disabled={isPending} className="w-full" type="submit">
                 Submit
                 {isPending && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
               </Button>

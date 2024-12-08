@@ -1,4 +1,5 @@
 import { getUserByEmail } from "@/actions/user";
+import Maps from "@/components/map";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -11,12 +12,15 @@ const Home = async () => {
   const user = await getUserByEmail(session.user.email as string);
 
   console.log(user);
-
   if (!user.data) {
     redirect("/onboarding");
   }
 
-  return <div>Home</div>;
+  return (
+    <div>
+      <Maps />
+    </div>
+  );
 };
 
 export default Home;

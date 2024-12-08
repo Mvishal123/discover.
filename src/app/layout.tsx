@@ -1,10 +1,8 @@
+import Providers from "@/components/providers/providers";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import NextAuthProvider from "@/components/providers/nextauth-provider";
-import { Toaster } from "@/components/ui/sonner";
-import Providers from "@/components/providers/providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -12,7 +10,7 @@ const geistSans = localFont({
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "./fonts/GeistMonoVF.woff", 
   variable: "--font-geist-mono",
   weight: "100 900",
 });

@@ -50,6 +50,7 @@ export default {
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
         },
+        "brand": "#292d32",
         "brand-orange": "#ff7448",
         "brand-red": "#ff4848",
         "brand-purple": "#6248ff",
