@@ -121,12 +121,11 @@ function SidebarItem({
   const pathname = usePathname();
   const isActive =
     pathname.split("/")[pathname.split("/").length - 1] === label.toLowerCase();
-  console.log(label, " : ", isActive);
 
   return (
     <li className="group relative my-2 px-1">
       {!expanded && (
-        <span className="pointer-events-none absolute left-16 mt-2 flex w-[80px] -translate-x-6 items-center justify-center rounded-lg border bg-gradient-to-r from-brand-red to-brand-orange p-1 text-start text-xs text-white opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-50">
+        <span className="pointer-events-none absolute left-16 mt-2 flex w-[80px] -translate-x-6 items-center justify-center rounded-lg bg-gradient-to-r from-brand-red to-brand-orange p-1 text-start text-xs text-white opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100">
           {label}
         </span>
       )}
@@ -136,7 +135,7 @@ function SidebarItem({
         }}
         href={href}
         className={cn(
-          "flex items-center rounded-lg px-3 py-1",
+          "flex items-center rounded-lg px-3 py-2",
           isActive
             ? "bg-gradient-to-r from-brand-red to-brand-orange text-white/90"
             : "text-black/70 hover:bg-black/5",

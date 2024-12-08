@@ -1,9 +1,9 @@
-import React from 'react'
+import MapCreate from "@/components/main/map-create";
 
 const Create = () => {
-  return (
-    <div>Create</div>
-  )
-}
+  return <div>
+    <MapCreate />
+  </div>;
+};
 
-export default Create
+export default Create;

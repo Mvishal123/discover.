@@ -42,7 +42,7 @@ model Discover {
 
   users       UserDiscover[]
   createdById String
-
+  
   startTime DateTime?
   endTime   DateTime?
 

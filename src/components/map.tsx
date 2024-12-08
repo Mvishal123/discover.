@@ -1,6 +1,6 @@
 "use client";
 
-import "leaflet/dist/leaflet.css";
+
 import React, { useCallback, useState } from "react";
 import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
 import { Button } from "./ui/button";
@@ -16,7 +16,7 @@ const CreateDiscover: React.FC = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [position, setPosition] = useState<[number, number] | null>(null);
+  const [position, setPosition] = useState<[number, number] | null>(null) ;
   const [lat, setLat] = useState<string>("51.505");
   const [lng, setLng] = useState<string>("-0.09");
   const [searchQuery, setSearchQuery] = useState("");
