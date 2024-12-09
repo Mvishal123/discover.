@@ -6,7 +6,7 @@ import { locationIcon } from "@/utils/discover";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { LeafletEvent } from "leaflet";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import { Input } from "../ui/input";
 
@@ -37,7 +37,31 @@ const CreateDiscoverMap = ({ details, setDetails }: CreateDiscoverMapProps) => {
     },
   });
 
-  const dragHander = async (e: LeafletEvent) => {
+  useEffect(() => {
+    const init = async () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          const { latitude, longitude } = position.coords;
+          const res = await axios.get(
+            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`,
+          );
+
+          setDetails((prev) => ({
+            ...prev,
+            address: res.data.display_name,
+            coordinates: [latitude, longitude],
+            state: res.data.address.state,
+            country: res.data.address.country,
+            city: res.data.address.city,
+          }));
+        });
+      }
+    };
+
+    init();
+  }, []);
+
+  const dragHandler = async (e: LeafletEvent) => {
     const marker = e.target;
     const position = marker.getLatLng();
 
@@ -111,7 +135,7 @@ const CreateDiscoverMap = ({ details, setDetails }: CreateDiscoverMapProps) => {
       {/* map */}
       <MapContainer
         key={details.coordinates[0]}
-        className="relative mt-8 h-[80%] rounded-3xl shadow-xl"
+        className="relative mt-4 h-[80vh] rounded-3xl shadow-xl"
         center={details.coordinates}
         zoom={15}
         zoomControl={false}
@@ -126,7 +150,7 @@ const CreateDiscoverMap = ({ details, setDetails }: CreateDiscoverMapProps) => {
           title="You are here"
           draggable={true}
           eventHandlers={{
-            dragend: dragHander,
+            dragend: dragHandler,
           }}
         />
       </MapContainer>

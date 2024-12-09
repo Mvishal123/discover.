@@ -3,15 +3,8 @@
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import CreateDiscoverMap from "./create-discover-map";
-
-type MapDetails = {
-  name: string;
-  address: string;
-  coordinates: [number, number];
-  state?: string;
-  city?: string;
-  country?: string;
-};
+import { MapDetails } from "@/types/map";
+import CreateDiscoverForm from "./create-discover-form";
 
 const CreateDiscover = () => {
   const [details, setDetails] = useState<MapDetails>({
@@ -19,25 +12,19 @@ const CreateDiscover = () => {
     state: "",
     country: "",
     coordinates: [0, 0],
-    name: "",
     city: "",
   });
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setDetails((prev) => ({
-          ...prev,
-          coordinates: [position.coords.latitude, position.coords.longitude],
-        }));
-      });
-    }
-  }, []);
+  
+
+
 
   return (
-    <div className="flex h-screen flex-col px-12">
+    <div className="flex h-screen flex-col px-4 md:px-8 lg:px-12 ">
       <div className="mt-16 h-full w-full">
-        <CreateDiscoverMap details={details} setDetails={setDetails} />
+        <CreateDiscoverForm details={details} setDetails={setDetails}>
+          <CreateDiscoverMap details={details} setDetails={setDetails} />
+        </CreateDiscoverForm>
       </div>
     </div>
   );

@@ -19,10 +19,16 @@ export const onboardingSchema = z.object({
 
 // Discovers
 export const createDiscoverSchema = z.object({
-  name: z.string().min(2),
+  name: z.string().min(1, { message: "Name is required" }),
   description: z
     .string()
     .min(4, { message: "Description must be at least 5 characters long" }),
   image: z.string().url().optional(),
-  position: z.array(z.number()).length(2),
+  latitude: z.number(),
+  longitude: z.number(),
+  address: z.string(),
+  state: z.string().optional(),
+  city: z.string().optional(),
+  country: z.string(),
+  types: z.array(z.string()).min(1),
 });

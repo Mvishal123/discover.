@@ -8,46 +8,40 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(cuid())
-  username String  @unique
-  name     String?
-  email    String  @unique
-  image    String?
-
+  id              String         @id @default(cuid())
+  username        String         @unique
+  name            String?
+  email           String         @unique
+  image           String?
   currentLocation String?
   city            String?
   country         String?
   latitude        Float?
   longitude       Float?
-
-  discovers UserDiscover[]
-
-  onboarded  Boolean  @default(false)
-  isVerified Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  onboarded       Boolean        @default(false)
+  isVerified      Boolean        @default(false)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  discovers       UserDiscover[]
 }
 
 model Discover {
-  id          String  @id @default(cuid())
-  name        String
-  description String?
-  image       String?
-
-  country   String?
-  city      String?
-  location  String?
-  latitude  Float?
-  longitude Float?
-
-  users       UserDiscover[]
-  createdById String
-  
-  startTime DateTime?
-  endTime   DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String         @id @default(cuid())
+  name            String
+  description     String
+  image           String?
+  country         String?
+  city            String?
+  location        String
+  latitude        Float
+  longitude       Float
+  startTime       DateTime?
+  createdById     String
+  endTime         DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  discoverTypesId DiscoverTypes[]
+  users           UserDiscover[]
 }
 
 model UserDiscover {
@@ -55,9 +49,14 @@ model UserDiscover {
   userId     String
   discoverId String
   joinedAt   DateTime @default(now())
-
-  user     User     @relation(fields: [userId], references: [id])
-  discover Discover @relation(fields: [discoverId], references: [id])
+  discover   Discover @relation(fields: [discoverId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, discoverId])
+}
+
+model DiscoverTypes {
+  id        String     @id @default(cuid())
+  name      String
+  discovers Discover[]
 }
