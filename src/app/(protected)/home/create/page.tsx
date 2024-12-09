@@ -1,9 +1,11 @@
-import MapCreate from "@/components/main/map-create";
+import CreateDiscover from "@/components/main/create-discover-main";
 
 const Create = () => {
-  return <div>
-    <MapCreate />
-  </div>;
+  return (
+    <div>
+      <CreateDiscover />
+    </div>
+  );
 };
 
 export default Create;

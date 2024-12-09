@@ -10,3 +10,12 @@ export type LocationData = {
   country: string;
   coordiantes: [number, number];
 };
+
+export type MapDetails = {
+  name: string;
+  address: string;
+  coordinates: [number, number];
+  state?: string;
+  city?: string;
+  country?: string;
+};

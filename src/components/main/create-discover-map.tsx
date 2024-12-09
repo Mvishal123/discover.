@@ -1,47 +1,25 @@
 "use client";
 
-import { SuggestedPlacesType } from "@/types/map";
+import { MapDetails, SuggestedPlacesType } from "@/types/map";
 import useDebounce from "@/utils/debounce";
 import { locationIcon } from "@/utils/discover";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import "leaflet/dist/leaflet.css";
-import { useEffect, useState } from "react";
+import { LeafletEvent } from "leaflet";
+import React, { useState } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import { Input } from "../ui/input";
-import { Leaf } from "lucide-react";
-import { LeafletEvent } from "leaflet";
 
-type MapDetails = {
-  name: string;
-  address: string;
-  coordinates: [number, number];
-  state: string;
-  city: string;
-  country: string;
+type CreateDiscoverMapProps = {
+  setDetails: React.Dispatch<React.SetStateAction<MapDetails>>;
+  details: MapDetails;
 };
 
-const MapCreate = () => {
-  const [coordiantes, setCoordinates] = useState<[number, number]>([
-    51.505, -0.09,
-  ]);
-  const [details, setDetails] = useState<MapDetails>({
-    address: "",
-    state: "",
-    country: "",
-    coordinates: [0, 0],
-    name: "",
-    city: "",
-  });
+const CreateDiscoverMap = ({ details, setDetails }: CreateDiscoverMapProps) => {
   const [searchValue, setSearchValue] = useState<string>("");
-
   const debouncedSearchValue = useDebounce(searchValue);
 
-  const {
-    data: searchSuggestions,
-    error,
-    isLoading,
-  } = useQuery({
+  const { data: searchSuggestions } = useQuery({
     queryKey: ["search", debouncedSearchValue],
     queryFn: async () => {
       if (!debouncedSearchValue) return [];
@@ -66,7 +44,6 @@ const MapCreate = () => {
     const res = await axios.get(
       `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${position.lat}&lon=${position.lng}`,
     );
-    // console.log("DETAILS", details.data);
 
     setDetails((prev) => ({
       ...prev,
@@ -78,22 +55,11 @@ const MapCreate = () => {
     }));
   };
 
-  const setCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setDetails((prev) => ({
-          ...prev,
-          coordinates: [position.coords.latitude, position.coords.longitude],
-        }));
-      });
-    }
-  };
   const getStateCountry = async (cs: [number, number]) => {
     if (details.coordinates[0] && details.coordinates[1]) {
       const res = await axios.get(
         `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${cs[0]}&lon=${cs[1]}`,
       );
-      console.log("RES", res.data);
 
       setDetails((prev) => ({
         ...prev,
@@ -104,16 +70,10 @@ const MapCreate = () => {
     }
   };
 
-  useEffect(() => {
-    setCurrentLocation();
-  }, []);
-
-  console.log("DETAILS", details);
-
   return (
-    <div className="flex h-screen flex-col px-12">
+    <div className="h-full">
       {/* toolbar */}
-      <div className="mt-16">
+      <div>
         <div className="relative max-w-[400px]">
           <Input
             placeholder="Search places"
@@ -174,4 +134,4 @@ const MapCreate = () => {
   );
 };
 
-export default MapCreate;
+export default CreateDiscoverMap;
